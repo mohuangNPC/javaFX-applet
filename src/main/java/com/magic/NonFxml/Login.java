@@ -1,4 +1,4 @@
-package com.magic.controller;
+package com.magic.NonFxml;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

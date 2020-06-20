@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.magic.controller.IndexController">
+    <children>
+        <BorderPane prefHeight="640.0" prefWidth="590.0">
+            <top>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="欢迎进入系统" BorderPane.alignment="CENTER_LEFT" />
+            </top>
+            <left>
+                <TreeView fx:id="main_treeview" onMouseClicked="#mainTreeViewClick" prefHeight="360.0" prefWidth="126.0" BorderPane.alignment="TOP_LEFT" />
+            </left>
+            <center>
+                <ScrollPane prefHeight="600.0" BorderPane.alignment="CENTER">
+                    <content>
+                        <AnchorPane fx:id="main_pane_under_scroll" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="593.0" prefWidth="480.0" />
+                    </content>
+                </ScrollPane>
+            </center>
+            <bottom>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="this system is created by NikolaZhang!" BorderPane.alignment="CENTER" />
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>
