@@ -1,7 +1,7 @@
 package com.magic.generated.datasource;
 
-import com.magic.generated.util.Template;
 import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,13 +14,16 @@ import java.util.*;
  * @date 2020/6/19 16:06
  */
 public class DataSource {
-    private static Logger log = Logger.getLogger(DataSource.class.getClass());
+    private static Logger log = Logger.getLogger(DataSource.class.getName());
     private static Connection conn;
     private static String driver = "com.mysql.jdbc.Driver";
     private static String url = "jdbc:mysql://localhost:3306/EAP5?useUnicode=true&amp;characterEncoding=utf8";
-    private static  String username = "root";
+    private static String username = "root";
     private static String password = "root";
     private static Properties properties;
+    private static String PACKAGE_PATH = "com.magic";
+    private static String PACKAGE_FILE_PATH = "src\\main\\java\\com\\magic";
+    private static String PACKAGE_RESOURCE_FILE_PATH = "src\\main\\java\\resources";
     static {
         log.info("init mysql config");
         properties = new Properties();
@@ -43,12 +46,18 @@ public class DataSource {
             url = properties.getProperty("url");
             username = properties.getProperty("username");
             password = properties.getProperty("password");
+            PACKAGE_PATH = DataSource.getProperties().getProperty("packagePath");
+            PACKAGE_FILE_PATH = DataSource.getProperties().getProperty("packageFilePath");
+            PACKAGE_RESOURCE_FILE_PATH = DataSource.getProperties().getProperty("packageResourcePath");
         }
         log.info("=========MySQL configuration=========");
         log.info("driver:"+driver);
         log.info("url:"+url);
         log.info("username:"+username);
         log.info("password:"+password);
+        log.info("PACKAGE_PATH:"+PACKAGE_PATH);
+        log.info("PACKAGE_FILE_PATH:"+PACKAGE_FILE_PATH);
+        log.info("PACKAGE_RESOURCE_FILE_PATH:"+PACKAGE_RESOURCE_FILE_PATH);
         log.info("=================end=================");
     }
 
@@ -100,8 +109,9 @@ public class DataSource {
 
     /**
      * Get database table information
+     * @return
      */
-    public static void getDatabaseInfo(String tableName){
+    public static Map<String, Object> getDatabaseInfo(String tableName){
         Connection conn = getConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -162,9 +172,9 @@ public class DataSource {
         dataMap.put("sAllfield",sAllfield.substring(0,allfield.length()-1));
         dataMap.put("tableName",tableName);
         dataMap.put("uTableName",toHump(tableName));
-        dataMap.put("entltyPath","com.magic.entity");
-        dataMap.put("classPath", "com.magic");
-        dataMap.put("daoPath","com.magic.dao");
+        dataMap.put("classPath", PACKAGE_PATH);
+        dataMap.put("filePath", PACKAGE_FILE_PATH);
+        return dataMap;
     }
     public static void close() {
         try {
@@ -176,6 +186,18 @@ public class DataSource {
 
     public static Properties getProperties() {
         return properties;
+    }
+
+    public static String getPackageFilePath() {
+        return PACKAGE_FILE_PATH;
+    }
+
+    public static String getPackagePath() {
+        return PACKAGE_PATH;
+    }
+
+    public static String getPackageResourceFilePath() {
+        return PACKAGE_RESOURCE_FILE_PATH;
     }
 
     public static String toHump(String para){

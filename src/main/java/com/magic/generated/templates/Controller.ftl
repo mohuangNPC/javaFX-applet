@@ -3,7 +3,6 @@ package ${classPath}.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,85 +11,73 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ${classPath}.entity.${uTableName};
 import ${classPath}.service.${uTableName}Service;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.Query;
-import io.renren.common.utils.R;
 
 
 
 
-/**
-* ${comments}
-*
-* @author ${author}
-* @email ${email}
-* @date ${datetime}
-*/
 @RestController
-@RequestMapping("${pathName}")
-public class ${className}Controller {
+@RequestMapping("${uTableName}")
+public class ${uTableName}Controller {
 @Autowired
-private ${className}Service ${classname}Service;
-
-/**
-* 列表
-*/
-@RequestMapping("/list")
-@RequiresPermissions("${pathName}:list")
-public R list(@RequestParam Map<String,Object> params){
-//查询列表数据
-Query query = new Query(params);
-
-List<${className}Entity> ${classname}List = ${classname}Service.queryList(query);
-    int total = ${classname}Service.queryTotal(query);
-
-    PageUtils pageUtil = new PageUtils(${classname}List, total, query.getLimit(), query.getPage());
-
-    return R.ok().put("page", pageUtil);
-    }
+private ${uTableName}Service ${uTableName}Service;
 
 
     /**
-    * 信息
+    * count
     */
-    @RequestMapping("/info/{${pk.attrname}}")
-    @RequiresPermissions("${pathName}:info")
-    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-    ${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
-
-    return R.ok().put("${classname}", ${classname});
+    @RequestMapping("/count")
+    public Integer count(@RequestParam ${uTableName} ${uTableName}){
+        return ${uTableName}Service.get${uTableName}Count(${uTableName});
     }
 
     /**
-    * 保存
+    * list
+    */
+    @RequestMapping("/list")
+    public List<${uTableName}> list(@RequestParam ${uTableName} ${uTableName}){
+        //查询列表数据
+        List<${uTableName}> ${uTableName}List = ${uTableName}Service.get${uTableName}Count(${uTableName});
+        return ${uTableName}List;
+     }
+
+    /**
+    * detail
+    */
+    @RequestMapping("/detail")
+    public ${uTableName} info(@RequestParam String id){
+        ${uTableName} ${uTableName} = ${uTableName}Service.${uTableName} get${uTableName}(id);
+        return ${uTableName};
+    }
+
+    /**
+    * save
     */
     @RequestMapping("/save")
-    @RequiresPermissions("${pathName}:save")
-    public R save(@RequestBody ${className}Entity ${classname}){
-    ${classname}Service.save(${classname});
-
-    return R.ok();
+    public Integer save(@RequestParam ${uTableName} ${uTableName}){
+        return ${uTableName}Service.add${uTableName}(${uTableName});
     }
 
     /**
-    * 修改
+    * update
     */
     @RequestMapping("/update")
-    @RequiresPermissions("${pathName}:update")
-    public R update(@RequestBody ${className}Entity ${classname}){
-    ${classname}Service.update(${classname});
-
-    return R.ok();
+    public Integer update(@RequestParam ${uTableName} ${uTableName}){
+        return ${uTableName}Service.update${uTableName}(${uTableName});
     }
 
     /**
-    * 删除
+    * delete
     */
     @RequestMapping("/delete")
-    @RequiresPermissions("${pathName}:delete")
-    public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-    ${classname}Service.deleteBatch(${pk.attrname}s);
+    public Integer delete(@RequestParam ${uTableName} ${uTableName}){
+        return ${uTableName}Service.delete${uTableName}(${uTableName});
+    }
 
-    return R.ok();
+    /**
+    * deleteByList
+    */
+    @RequestMapping("/deleteList")
+    public Integer delete(@RequestParam List<String> list){
+        return ${uTableName}Service.delete${uTableName}ById(list);
     }
 }

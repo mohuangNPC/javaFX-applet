@@ -11,11 +11,11 @@ public interface ${uTableName}Dao {
 
     ${uTableName} get${uTableName}(String id);
 
-    int add${uTableName}(${uTableName});
+    int add${uTableName}(${uTableName} ${uTableName});
 
-    int update${uTableName}(${uTableName});
+    int update${uTableName}(${uTableName} ${uTableName});
 
-    int delete${uTableName}(${uTableName});
+    int delete${uTableName}(${uTableName} ${uTableName});
 
     int delete${uTableName}ById(List<String> list);
 }

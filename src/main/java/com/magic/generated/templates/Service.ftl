@@ -1,30 +1,24 @@
-package ${package}.service;
+package ${classPath}.service;
 
-import ${package}.entity.${className}Entity;
+import ${classPath}.entity.${uTableName};
 
 import java.util.List;
 import java.util.Map;
 
-/**
-* ${comments}
-*
-* @author ${author}
-* @email ${email}
-* @date ${datetime}
-*/
-public interface ${className}Service {
 
-${className}Entity queryObject(${pk.attrType} ${pk.attrname});
+public interface ${uTableName}Service {
 
-List<${className}Entity> queryList(Map<String, Object> map);
+    int get${uTableName}Count(${uTableName} ${uTableName});
 
-    int queryTotal(Map<String, Object> map);
+    List<${uTableName}> get${uTableName}List(${uTableName} ${uTableName});
 
-    void save(${className}Entity ${classname});
+    ${uTableName} get${uTableName}(String id);
 
-    void update(${className}Entity ${classname});
+    int add${uTableName}(${uTableName} ${uTableName});
 
-    void delete(${pk.attrType} ${pk.attrname});
+    int update${uTableName}(${uTableName} ${uTableName});
 
-    void deleteBatch(${pk.attrType}[] ${pk.attrname}s);
-    }
+    int delete${uTableName}(${uTableName} ${uTableName});
+
+    int delete${uTableName}ById(List<String> list);
+}

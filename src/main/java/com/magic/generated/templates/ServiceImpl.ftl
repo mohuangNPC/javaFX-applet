@@ -1,4 +1,4 @@
-package ${package}.service.impl;
+package ${classPath}.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,50 +6,49 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import ${package}.dao.${className}Dao;
-import ${package}.entity.${className}Entity;
-import ${package}.service.${className}Service;
+import ${classPath}.dao.${uTableName}Dao;
+import ${classPath}.entity.${uTableName};
+import ${classPath}.service.${uTableName}Service;
 
 
 
-@Service("${classname}Service")
-public class ${className}ServiceImpl implements ${className}Service {
-@Autowired
-private ${className}Dao ${classname}Dao;
+@Service("${uTableName}Service")
+public class ${uTableName}ServiceImpl implements ${uTableName}Service {
+    @Autowired
+    private ${uTableName}Dao ${uTableName}Dao;
 
-@Override
-public ${className}Entity queryObject(${pk.attrType} ${pk.attrname}){
-return ${classname}Dao.queryObject(${pk.attrname});
+    @Override
+    public int get${uTableName}Count(${uTableName} ${uTableName}){
+        return ${uTableName}Dao.get${uTableName}Count(${uTableName});
+    }
+
+    @Override
+    public List<${uTableName}> get${uTableName}List(${uTableName} ${uTableName}){
+        return get${uTableName}List(${uTableName});
+    }
+
+    @Override
+    public ${uTableName} get${uTableName}(String id){
+        return ${uTableName} get${uTableName}(id);
+    }
+
+    @Override
+    public int add${uTableName}(${uTableName} ${uTableName}){
+        return add${uTableName}(${uTableName});
+    }
+
+    @Override
+    public int update${uTableName}(${uTableName} ${uTableName}){
+        return update${uTableName}(${uTableName});
+    }
+
+    @Override
+    public int delete${uTableName}(${uTableName} ${uTableName}){
+        return delete${uTableName}(${uTableName});
+    }
+
+    @Override
+    public int delete${uTableName}ById(List<String> list list){
+        return delete${uTableName}ById(list);
+    }
 }
-
-@Override
-public List<${className}Entity> queryList(Map<String, Object> map){
-    return ${classname}Dao.queryList(map);
-    }
-
-    @Override
-    public int queryTotal(Map<String, Object> map){
-    return ${classname}Dao.queryTotal(map);
-    }
-
-    @Override
-    public void save(${className}Entity ${classname}){
-    ${classname}Dao.save(${classname});
-    }
-
-    @Override
-    public void update(${className}Entity ${classname}){
-    ${classname}Dao.update(${classname});
-    }
-
-    @Override
-    public void delete(${pk.attrType} ${pk.attrname}){
-    ${classname}Dao.delete(${pk.attrname});
-    }
-
-    @Override
-    public void deleteBatch(${pk.attrType}[] ${pk.attrname}s){
-    ${classname}Dao.deleteBatch(${pk.attrname}s);
-    }
-
-    }

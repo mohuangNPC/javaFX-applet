@@ -27,7 +27,6 @@ public class LoginController extends BashAction {
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
-        logger(this.getClass()).info("点击事件");
         String user = userField.getText();
         String pwd = passwordField.getText();
         if("admin".equals("admin")){
