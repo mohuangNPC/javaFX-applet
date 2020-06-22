@@ -1,4 +1,4 @@
-package ${classPath}.service.impl;
+package ${classPath}.Service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import ${classPath}.dao.${uTableName}Dao;
-import ${classPath}.entity.${uTableName};
-import ${classPath}.service.${uTableName}Service;
+import ${classPath}.Dao.${uTableName}Dao;
+import ${classPath}.Entity.${uTableName};
+import ${classPath}.Service.${uTableName}Service;
 
 
 
-@Service("${uTableName}Service")
+@Service
 public class ${uTableName}ServiceImpl implements ${uTableName}Service {
     @Autowired
     private ${uTableName}Dao ${uTableName}Dao;
@@ -24,31 +24,31 @@ public class ${uTableName}ServiceImpl implements ${uTableName}Service {
 
     @Override
     public List<${uTableName}> get${uTableName}List(${uTableName} ${uTableName}){
-        return get${uTableName}List(${uTableName});
+        return ${uTableName}Dao.get${uTableName}List(${uTableName});
     }
 
     @Override
     public ${uTableName} get${uTableName}(String id){
-        return ${uTableName} get${uTableName}(id);
+        return ${uTableName}Dao.get${uTableName}(id);
     }
 
     @Override
     public int add${uTableName}(${uTableName} ${uTableName}){
-        return add${uTableName}(${uTableName});
+        return ${uTableName}Dao.add${uTableName}(${uTableName});
     }
 
     @Override
     public int update${uTableName}(${uTableName} ${uTableName}){
-        return update${uTableName}(${uTableName});
+        return ${uTableName}Dao.update${uTableName}(${uTableName});
     }
 
     @Override
     public int delete${uTableName}(${uTableName} ${uTableName}){
-        return delete${uTableName}(${uTableName});
+        return ${uTableName}Dao.delete${uTableName}(${uTableName});
     }
 
     @Override
-    public int delete${uTableName}ById(List<String> list list){
-        return delete${uTableName}ById(list);
+    public int delete${uTableName}ById(List<String> list){
+        return ${uTableName}Dao.delete${uTableName}ById(list);
     }
 }

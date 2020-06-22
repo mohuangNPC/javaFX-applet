@@ -1,5 +1,6 @@
 package com.magic;
 
+import com.magic.controller.Index2Controller;
 import com.magic.controller.IndexController;
 import com.magic.controller.LoginController;
 import com.magic.util.BashAction;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.apache.log4j.Logger;
@@ -32,8 +34,9 @@ public class Main extends Application {
 //        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Main.fxml"));
         stage = primaryStage;
 //        Scene scene = new Scene(root, 300, 275);
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("Welcome to the applet");
 //        stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("static/image/folder_16.png")));
         gotoLogin("Main.fxml");
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -61,7 +64,7 @@ public class Main extends Application {
         controller.setMain(this);
     }
     public void gotoIndex(String fxml){
-        IndexController controller = (IndexController) loadGetController(fxml);
+        Index2Controller controller = (Index2Controller) loadGetController(fxml);
         controller.setMain(this);
     }
     public BashAction loadGetController(String fxml){
@@ -71,7 +74,8 @@ public class Main extends Application {
         loader.setLocation(Main.class.getClassLoader().getResource(fxml));
         try {
             Parent load = loader.load(in);
-            Scene scene = new Scene(load, (Double) StaticResourcesConfig.getStyle(fxml).get("width"), (Double) StaticResourcesConfig.getStyle(fxml).get("height"));
+            //Scene scene = new Scene(load, (Double) StaticResourcesConfig.getStyle(fxml).get("width"), (Double) StaticResourcesConfig.getStyle(fxml).get("height"));
+            Scene scene = new Scene(load);
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();

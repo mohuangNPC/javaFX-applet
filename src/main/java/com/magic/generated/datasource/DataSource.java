@@ -77,8 +77,9 @@ public class DataSource {
 
     /**
      * Get all tables in the database
+     * @return
      */
-    public static void getDatabase() {
+    public static List<String> getDatabase() {
         Connection conn = getConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -105,6 +106,7 @@ public class DataSource {
             }
             close();
         }
+        return list;
     }
 
     /**

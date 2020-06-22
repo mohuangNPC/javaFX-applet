@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="${classPath}.dao.${uTableName}Dao">
+<mapper namespace="${classPath}.Dao.${uTableName}Dao">
     <sql id="Base_Column_List">
         ${allfield}
     </sql>
-    <select id="get${uTableName}Count" resultType="int" parameterType="${classPath}.entity.${uTableName}">
+    <select id="get${uTableName}Count" resultType="int" parameterType="${classPath}.Entity.${uTableName}">
         select count(id) from ${tableName}
         <where>
             <trim suffixOverrides="and">
@@ -14,9 +14,10 @@
             </trim>
         </where>
     </select>
-    <select id="get${uTableName}List" resultType="${classPath}.entity.${uTableName}" parameterType="${classPath}.entity.${uTableName}">
+    <select id="get${uTableName}List" resultType="${classPath}.Entity.${uTableName}" parameterType="${classPath}.Entity.${uTableName}">
         select
         <include refid="Base_Column_List"/>
+        from
         ${tableName}
         <where>
             <trim suffixOverrides="and">
@@ -26,17 +27,17 @@
             </trim>
         </where>
     </select>
-    <select id="get${uTableName}" resultType="${classPath}.entity.${uTableName}" parameterType="string">
+    <select id="get${uTableName}" resultType="${classPath}.Entity.${uTableName}" parameterType="string">
         select
         <include refid="Base_Column_List"/>
         from ${tableName} where id=${r"#{value}"}
     </select>
-    <insert id="add${uTableName}" parameterType="${classPath}.entity.${uTableName}">
+    <insert id="add${uTableName}" parameterType="${classPath}.Entity.${uTableName}">
         insert into ${tableName}
         (${allfield})
         values (${sAllfield})
     </insert>
-    <update id="update${uTableName}" parameterType="${classPath}.entity.${uTableName}">
+    <update id="update${uTableName}" parameterType="${classPath}.Entity.${uTableName}">
         update ${tableName}
         <trim prefix="set" suffixOverrides=",">
             <#list list as names>
@@ -49,7 +50,7 @@
             id=${r"#{id}"}
         </where>
     </update>
-    <delete id="delete${uTableName}" parameterType="${classPath}.entity.${uTableName}">
+    <delete id="delete${uTableName}" parameterType="${classPath}.Entity.${uTableName}">
         delete from ${tableName}
         <where>
             <if test="id !=null ">id=${r"#{id}"}</if>

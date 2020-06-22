@@ -1,8 +1,12 @@
-package ${classPath}.dao;
+package ${classPath}.Dao;
 
 import java.util.List;
-import ${classPath}.entity.${uTableName};
+import ${classPath}.Entity.${uTableName};
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
+@Mapper
+@Component
 public interface ${uTableName}Dao {
 
     int get${uTableName}Count(${uTableName} ${uTableName});

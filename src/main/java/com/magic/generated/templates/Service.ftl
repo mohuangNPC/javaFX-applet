@@ -1,7 +1,7 @@
-package ${classPath}.service;
+package ${classPath}.Service;
 
-import ${classPath}.entity.${uTableName};
-
+import ${classPath}.Entity.${uTableName};
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 

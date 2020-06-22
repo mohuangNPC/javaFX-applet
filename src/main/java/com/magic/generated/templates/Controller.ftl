@@ -1,4 +1,4 @@
-package ${classPath}.controller;
+package ${classPath}.Controller;
 
 import java.util.List;
 import java.util.Map;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ${classPath}.entity.${uTableName};
-import ${classPath}.service.${uTableName}Service;
+import ${classPath}.Entity.${uTableName};
+import ${classPath}.Service.${uTableName}Service;
 
 
 
@@ -26,7 +26,7 @@ private ${uTableName}Service ${uTableName}Service;
     * count
     */
     @RequestMapping("/count")
-    public Integer count(@RequestParam ${uTableName} ${uTableName}){
+    public Integer count(${uTableName} ${uTableName}){
         return ${uTableName}Service.get${uTableName}Count(${uTableName});
     }
 
@@ -34,9 +34,9 @@ private ${uTableName}Service ${uTableName}Service;
     * list
     */
     @RequestMapping("/list")
-    public List<${uTableName}> list(@RequestParam ${uTableName} ${uTableName}){
+    public List<${uTableName}> list(${uTableName} ${uTableName}){
         //查询列表数据
-        List<${uTableName}> ${uTableName}List = ${uTableName}Service.get${uTableName}Count(${uTableName});
+        List<${uTableName}> ${uTableName}List = ${uTableName}Service.get${uTableName}List(${uTableName});
         return ${uTableName}List;
      }
 
@@ -44,8 +44,8 @@ private ${uTableName}Service ${uTableName}Service;
     * detail
     */
     @RequestMapping("/detail")
-    public ${uTableName} info(@RequestParam String id){
-        ${uTableName} ${uTableName} = ${uTableName}Service.${uTableName} get${uTableName}(id);
+    public ${uTableName} info(String id){
+        ${uTableName} ${uTableName} = ${uTableName}Service.get${uTableName}(id);
         return ${uTableName};
     }
 
@@ -53,7 +53,7 @@ private ${uTableName}Service ${uTableName}Service;
     * save
     */
     @RequestMapping("/save")
-    public Integer save(@RequestParam ${uTableName} ${uTableName}){
+    public Integer save(${uTableName} ${uTableName}){
         return ${uTableName}Service.add${uTableName}(${uTableName});
     }
 
@@ -61,7 +61,7 @@ private ${uTableName}Service ${uTableName}Service;
     * update
     */
     @RequestMapping("/update")
-    public Integer update(@RequestParam ${uTableName} ${uTableName}){
+    public Integer update(${uTableName} ${uTableName}){
         return ${uTableName}Service.update${uTableName}(${uTableName});
     }
 
@@ -69,7 +69,7 @@ private ${uTableName}Service ${uTableName}Service;
     * delete
     */
     @RequestMapping("/delete")
-    public Integer delete(@RequestParam ${uTableName} ${uTableName}){
+    public Integer delete(${uTableName} ${uTableName}){
         return ${uTableName}Service.delete${uTableName}(${uTableName});
     }
 
@@ -77,7 +77,7 @@ private ${uTableName}Service ${uTableName}Service;
     * deleteByList
     */
     @RequestMapping("/deleteList")
-    public Integer delete(@RequestParam List<String> list){
+    public Integer delete(List<String> list){
         return ${uTableName}Service.delete${uTableName}ById(list);
     }
 }

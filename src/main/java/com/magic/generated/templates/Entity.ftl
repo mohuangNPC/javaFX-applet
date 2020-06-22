@@ -1,4 +1,5 @@
-package ${classPath}.entity;
+package ${classPath}.Entity;
+import java.util.Date;
 
 public class ${uTableName} {
 <#list list as names>

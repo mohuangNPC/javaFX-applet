@@ -30,7 +30,7 @@ public class LoginController extends BashAction {
         String user = userField.getText();
         String pwd = passwordField.getText();
         if("admin".equals("admin")){
-            main.gotoIndex("Index.fxml");
+            main.gotoIndex("Index2.fxml");
         }
 //        actiontarget.setText("Sign in button pressed");
     }

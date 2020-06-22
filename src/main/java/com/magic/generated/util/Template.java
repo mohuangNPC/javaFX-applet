@@ -19,6 +19,21 @@ public class Template {
     private static final String TEMPLATE_PATH = "src/main/java/com/magic/generated/templates";
     private static final String CLASS_PATH = DataSource.getProperties().getProperty("exportDir");
     private static Logger log = Logger.getLogger(Template.class.getClass());
+    public static boolean generatedAll(String tableName){
+        try {
+            Map<String, Object> databaseInfo = DataSource.getDatabaseInfo(tableName);
+            Template.generated(databaseInfo,"Controller");
+            Template.generated(databaseInfo,"ServiceImpl");
+            Template.generated(databaseInfo,"Service");
+            Template.generated(databaseInfo,"Dao");
+            Template.generated(databaseInfo,"Entity");
+            Template.generatedResource(databaseInfo,"Mapper");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
     public static void generated(Map<String,Object> dataMap,String type){
         Writer out = null;
         try {
@@ -31,6 +46,9 @@ public class Template {
             File dirFile = new File(dirPath);
             if(!dirFile.exists()){
                 dirFile.mkdirs();
+            }
+            if("Entity".equals(type)){
+                type = "";
             }
             File docFile = new File(dirPath + "\\" + dataMap.get("uTableName") + type + ".java");
             if(!docFile.exists()){
