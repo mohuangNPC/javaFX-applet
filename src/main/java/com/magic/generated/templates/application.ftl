@@ -11,4 +11,4 @@ spring:
 
 mybatis:
     mapper-locations: classpath:Mapper/*.xml
-    type-aliases-package: com.magic.Entity
+    type-aliases-package: ${classPath}.Entity

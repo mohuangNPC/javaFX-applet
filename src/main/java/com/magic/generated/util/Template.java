@@ -6,8 +6,6 @@ import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +26,7 @@ public class Template {
             Template.generated(databaseInfo,"Dao");
             Template.generated(databaseInfo,"Entity");
             Template.generatedResource(databaseInfo,"Mapper");
+            Template.generatedResource(databaseInfo,"application");
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -72,11 +71,19 @@ public class Template {
             Configuration configuration = getTemplate();
             freemarker.template.Template template = configuration.getTemplate(type+".ftl");
             String dirPath =  CLASS_PATH + "\\" + dataMap.get("uTableName") + "\\"+ DataSource.getPackageResourceFilePath()+ "\\" + type;
+            if ("application".equals(type)) {
+                dirPath =  CLASS_PATH + "\\" + dataMap.get("uTableName") + "\\"+ DataSource.getPackageResourceFilePath();
+            }
             File dirFile = new File(dirPath);
             if(!dirFile.exists()){
                 dirFile.mkdirs();
             }
-            File docFile = new File(dirPath + "\\" + dataMap.get("uTableName") + type + "Mapper.xml");
+            File docFile = null;
+            if ("application".equals(type)) {
+                docFile = new File(dirPath + "\\" + "application.properties");
+            }else {
+                docFile = new File(dirPath + "\\" + dataMap.get("uTableName") + "Mapper.xml");
+            }
             if(!docFile.exists()){
                 docFile.createNewFile();
             }
