@@ -27,6 +27,7 @@ public class Template {
             Template.generated(databaseInfo,"Entity");
             Template.generatedResource(databaseInfo,"Mapper");
             Template.generatedResource(databaseInfo,"application");
+            Template.generatedPom(databaseInfo,"pom");
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -80,10 +81,36 @@ public class Template {
             }
             File docFile = null;
             if ("application".equals(type)) {
-                docFile = new File(dirPath + "\\" + "application.properties");
+                docFile = new File(dirPath + "\\" + "application.yml");
             }else {
                 docFile = new File(dirPath + "\\" + dataMap.get("uTableName") + "Mapper.xml");
             }
+            if(!docFile.exists()){
+                docFile.createNewFile();
+            }
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
+            template.process(dataMap, out);
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void generatedPom(Map<String,Object> dataMap,String type){
+        Writer out = null;
+        try {
+            Configuration configuration = getTemplate();
+            freemarker.template.Template template = configuration.getTemplate(type+".ftl");
+            String dirPath =  CLASS_PATH + "\\" + dataMap.get("uTableName");
+            File dirFile = new File(dirPath);
+            if(!dirFile.exists()){
+                dirFile.mkdirs();
+            }
+            File docFile  = new File(dirPath + "\\" + "pom.xml");;
             if(!docFile.exists()){
                 docFile.createNewFile();
             }

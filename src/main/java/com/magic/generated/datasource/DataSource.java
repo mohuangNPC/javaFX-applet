@@ -23,7 +23,7 @@ public class DataSource {
     private static Properties properties;
     private static String PACKAGE_PATH = "com.magic";
     private static String PACKAGE_FILE_PATH = "src\\main\\java\\com\\magic";
-    private static String PACKAGE_RESOURCE_FILE_PATH = "src\\main\\java\\resources";
+    private static String PACKAGE_RESOURCE_FILE_PATH = "src\\main\\resources";
     static {
         log.info("init mysql config");
         properties = new Properties();
