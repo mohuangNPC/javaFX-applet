@@ -80,8 +80,11 @@
             </AnchorPane>
           </content>
         </ScrollPane>
-        <AnchorPane>
+        <AnchorPane fx:id="rightAnchorPane">
           <children>
+            <TableView fx:id="tableInfo" layoutX="16.0" layoutY="11.0" prefHeight="523.0" prefWidth="398.0">
+
+            </TableView>
           </children>
         </AnchorPane>
       </items>

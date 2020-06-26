@@ -23,6 +23,7 @@ public class Template {
     public static boolean generatedAll(String tableName){
         try {
             Map<String, Object> databaseInfo = DataSource.getDatabaseInfo(tableName);
+            Template.generated(databaseInfo,"Start");
             Template.generated(databaseInfo,"Controller");
             Template.generated(databaseInfo,"ServiceImpl");
             Template.generated(databaseInfo,"Service");
@@ -48,7 +49,7 @@ public class Template {
             File sourceFile = new File(srcDir);
             compress(sourceFile,zos,sourceFile.getName(),KeepDirStructure);
             long end = System.currentTimeMillis();
-            System.out.println("压缩完成，耗时：" + (end - start) +" ms");
+            System.out.println("zip complete,task time ：" + (end - start) +" ms");
         } catch (Exception e) {
             throw new RuntimeException("zip error from ZipUtils",e);
         }finally{
@@ -128,6 +129,7 @@ public class Template {
         }finally {
             try {
                 out.flush();
+                out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -142,6 +144,8 @@ public class Template {
             if ("application".equals(type)) {
                 dirPath =  CLASS_PATH + "\\" + dataMap.get("uTableName") + "\\"+ DataSource.getPackageResourceFilePath();
             }
+            System.err.println("========================="+DataSource.getPackageResourceFilePath());
+            System.err.println("========================="+dirPath);
             File dirFile = new File(dirPath);
             if(!dirFile.exists()){
                 dirFile.mkdirs();
@@ -162,6 +166,7 @@ public class Template {
         }finally {
             try {
                 out.flush();
+                out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -188,6 +193,34 @@ public class Template {
         }finally {
             try {
                 out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void generatedStart(Map<String,Object> dataMap,String type){
+        Writer out = null;
+        try {
+            Configuration configuration = getTemplate();
+            freemarker.template.Template template = configuration.getTemplate(type+".ftl");
+            String dirPath =  CLASS_PATH + "\\" + dataMap.get("uTableName") + "\\"+ DataSource.getPackageFilePath();
+            File dirFile = new File(dirPath);
+            if(!dirFile.exists()){
+                dirFile.mkdirs();
+            }
+            File docFile = new File(dirPath + "\\" + type + ".java");
+            if(!docFile.exists()){
+                docFile.createNewFile();
+            }
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
+            template.process(dataMap, out);
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                out.flush();
+                out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

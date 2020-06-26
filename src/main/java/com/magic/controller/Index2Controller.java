@@ -5,12 +5,6 @@ import com.magic.generated.datasource.DataSource;
 import com.magic.generated.util.Template;
 import com.magic.util.AlertBox;
 import com.magic.util.BashAction;
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
-import com.sun.org.apache.xpath.internal.objects.XNodeSet;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -28,7 +22,6 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -45,9 +38,13 @@ public class Index2Controller extends BashAction implements Initializable {
     @FXML
     public TableView tableMysql;
     @FXML
+    public TableView tableInfo;
+    @FXML
     public TreeView<String> functionList;
     @FXML
     public AnchorPane centerAnchorPane;
+    @FXML
+    public AnchorPane rightAnchorPane;
 
     public void setMain(Main main) {
         this.main = main;
@@ -110,6 +107,8 @@ public class Index2Controller extends BashAction implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
                     logger(getClass()).info("once");
+                    Person info = row.getItem();
+                    
                 }
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Person info = row.getItem();
