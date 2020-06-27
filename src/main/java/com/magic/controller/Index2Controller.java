@@ -116,7 +116,10 @@ public class Index2Controller extends BashAction implements Initializable {
                     logger(getClass()).info("once");
                     Person info = row.getItem();
                     //Get table information
+                    ObservableList<Node> children = rightAnchorPane.getChildren();
+                    children.clear();
                     getTableInformation(info.getTableName());
+                    rightAnchorPane.getChildren().addAll(tableInfo);
                 }
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Person info = row.getItem();
@@ -137,6 +140,9 @@ public class Index2Controller extends BashAction implements Initializable {
         return tableMysql;
     }
     public TableView getTableInformation(String tableName){
+        //Clear the original table data
+        tableInfo.getColumns().clear();
+        tableInfo.getItems().clear();
         List<Map<String,String>> tableInfomation = DataSource.getTableInfo(tableName);
         List<TableInfo> list = new ArrayList<>();
         tableInfomation.forEach(value -> {
