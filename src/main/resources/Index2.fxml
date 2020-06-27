@@ -8,7 +8,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.magic.controller.Index2Controller" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="vBox" prefHeight="600.0" prefWidth="1099.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.magic.controller.Index2Controller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -63,12 +62,12 @@
       <items>
         <AnchorPane>
           <children>
-                  <TreeView fx:id="functionList" onMouseClicked="#mainTreeViewClick" layoutX="11.0" layoutY="10.0" prefHeight="523.0" prefWidth="200.0" />
+                  <TreeView fx:id="functionList" layoutX="11.0" layoutY="10.0" onMouseClicked="#mainTreeViewClick" prefHeight="523.0" prefWidth="200.0" />
           </children>
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <AnchorPane fx:id="centerAnchorPane" id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+            <AnchorPane id="Content" fx:id="centerAnchorPane" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
               <children>
                         <TableView fx:id="tableMysql" layoutX="16.0" layoutY="11.0" prefHeight="523.0" prefWidth="398.0">
 <!--                          <columns>-->
@@ -82,7 +81,7 @@
         </ScrollPane>
         <AnchorPane fx:id="rightAnchorPane">
           <children>
-            <TableView fx:id="tableInfo" layoutX="16.0" layoutY="11.0" prefHeight="523.0" prefWidth="398.0">
+            <TableView fx:id="tableInfo" layoutX="16.0" layoutY="11.0" prefHeight="523.0" prefWidth="434.0">
 
             </TableView>
           </children>

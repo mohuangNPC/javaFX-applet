@@ -18,10 +18,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -45,6 +47,8 @@ public class Index2Controller extends BashAction implements Initializable {
     public AnchorPane centerAnchorPane;
     @FXML
     public AnchorPane rightAnchorPane;
+    @FXML
+    public VBox vBox;
 
     public void setMain(Main main) {
         this.main = main;
@@ -65,6 +69,9 @@ public class Index2Controller extends BashAction implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<Node> scrolChildren = centerAnchorPane.getChildren();
         scrolChildren.clear();
+        Label placeholder = new Label();
+        placeholder.setText("No INFORMATION");
+        tableInfo.setPlaceholder(placeholder);
         new Thread(() -> initTable()).start();
         setTreeView();
     }
@@ -108,7 +115,8 @@ public class Index2Controller extends BashAction implements Initializable {
                 if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
                     logger(getClass()).info("once");
                     Person info = row.getItem();
-                    
+                    //Get table information
+                    getTableInformation(info.getTableName());
                 }
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Person info = row.getItem();
@@ -127,6 +135,54 @@ public class Index2Controller extends BashAction implements Initializable {
         tableMysql.setItems(data);
         tableMysql.getColumns().addAll(tableNameCol, operationalCol);
         return tableMysql;
+    }
+    public TableView getTableInformation(String tableName){
+        List<Map<String,String>> tableInfomation = DataSource.getTableInfo(tableName);
+        List<TableInfo> list = new ArrayList<>();
+        tableInfomation.forEach(value -> {
+            TableInfo table =  new TableInfo(value.get("Name"),value.get("Type"),value.get("Length"),value.get("Null"),value.get("Key"),value.get("Comment"));
+            list.add(table);
+        });
+        ObservableList<TableInfo> data = FXCollections.observableArrayList(
+                list
+        );
+        TableColumn nameCol = new TableColumn("Name");
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<>("Name")
+        );
+        TableColumn typeCol = new TableColumn("Type");
+        typeCol.setCellValueFactory(
+                new PropertyValueFactory<>("Type")
+        );
+        TableColumn lengthCol = new TableColumn("Length");
+        lengthCol.setCellValueFactory(
+                new PropertyValueFactory<>("Length")
+        );
+        TableColumn nullCol = new TableColumn("Null");
+        nullCol.setCellValueFactory(
+                new PropertyValueFactory<>("Null")
+        );
+        TableColumn keyCol = new TableColumn("Key");
+        keyCol.setCellValueFactory(
+                new PropertyValueFactory<>("Key")
+        );
+        TableColumn commentCol = new TableColumn("Comment");
+        commentCol.setCellValueFactory(
+                new PropertyValueFactory<>("Comment")
+        );
+        tableInfo.setRowFactory(tv -> {
+            TableRow<TableInfo> row = new TableRow<TableInfo>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
+                    logger(getClass()).info("once");
+
+                }
+            });
+            return row ;
+        });
+        tableInfo.setItems(data);
+        tableInfo.getColumns().addAll(nameCol, typeCol,lengthCol,nullCol,keyCol,commentCol);
+        return tableInfo;
     }
     public void setDefaultAnchorPane() {
         centerAnchorPane.getChildren().clear();
@@ -157,5 +213,115 @@ public class Index2Controller extends BashAction implements Initializable {
         public void setOperational(String lName) {
             operational.set(lName);
         }
+    }
+    public static class TableInfo {
+
+        private final SimpleStringProperty Name;
+        private final SimpleStringProperty Type;
+        private final SimpleStringProperty Length;
+        private final SimpleStringProperty Null;
+        private final SimpleStringProperty Key;
+        private final SimpleStringProperty Comment;
+
+        public TableInfo(String name, String type, String length, String aNull, String key, String comment) {
+            Name = new SimpleStringProperty(name);;
+            Type = new SimpleStringProperty(type);;
+            Length = new SimpleStringProperty(length);;
+            Null = new SimpleStringProperty(aNull);;
+            Key = new SimpleStringProperty(key);;
+            Comment = new SimpleStringProperty(comment);;
+        }
+
+        public String getName() {
+            return Name.get();
+        }
+
+        public SimpleStringProperty nameProperty() {
+            return Name;
+        }
+
+        public void setName(String name) {
+            this.Name.set(name);
+        }
+
+        public String getType() {
+            return Type.get();
+        }
+
+        public SimpleStringProperty typeProperty() {
+            return Type;
+        }
+
+        public void setType(String type) {
+            this.Type.set(type);
+        }
+
+        public String getLength() {
+            return Length.get();
+        }
+
+        public SimpleStringProperty lengthProperty() {
+            return Length;
+        }
+
+        public void setLength(String length) {
+            this.Length.set(length);
+        }
+
+        public String getNull() {
+            return Null.get();
+        }
+
+        public SimpleStringProperty nullProperty() {
+            return Null;
+        }
+
+        public void setNull(String aNull) {
+            this.Null.set(aNull);
+        }
+
+        public String getKey() {
+            return Key.get();
+        }
+
+        public SimpleStringProperty keyProperty() {
+            return Key;
+        }
+
+        public void setKey(String key) {
+            this.Key.set(key);
+        }
+
+        public String getComment() {
+            return Comment.get();
+        }
+
+        public SimpleStringProperty commentProperty() {
+            return Comment;
+        }
+
+        public void setComment(String comment) {
+            this.Comment.set(comment);
+        }
+        //        private TableInfo(String fName, String lName) {
+//            this.tableName = new SimpleStringProperty(fName);
+//            this.operational = new SimpleStringProperty(lName);
+//        }
+//
+//        public String getTableName() {
+//            return tableName.get();
+//        }
+//
+//        public void setTableName(String fName) {
+//            tableName.set(fName);
+//        }
+//
+//        public String getOperational() {
+//            return operational.get();
+//        }
+//
+//        public void setOperational(String lName) {
+//            operational.set(lName);
+//        }
     }
 }

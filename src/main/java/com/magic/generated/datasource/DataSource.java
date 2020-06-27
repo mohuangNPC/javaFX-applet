@@ -1,5 +1,6 @@
 package com.magic.generated.datasource;
 
+import com.magic.util.JavaRegexUtil;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -178,6 +179,60 @@ public class DataSource {
         dataMap.put("filePath", PACKAGE_FILE_PATH);
         return dataMap;
     }
+    /**
+     * Get database table information
+     * @return
+     */
+    public static List<Map<String,String>> getTableInfo(String tableName){
+        Connection conn = getConn();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql = "show full columns from "+tableName;
+        Map<String,Object> dataMap = new HashMap<>();
+        List<Map<String,String>> list = new ArrayList<>();
+        String allfield = "";
+        String sAllfield = "";
+        String name = "";
+        String sName = "";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            Map<String,String> map;
+            char[] cs;
+            while (rs.next()){
+                map = new HashMap<>();
+                name = rs.getString(1);
+                map.put("Name",name);
+                String type = rs.getString(2);
+                map.put("Type",type);
+                String numbers = JavaRegexUtil.extractNumbers(type);
+                if(numbers.equals("")){
+                    map.put("Length","0");
+                }else {
+                    map.put("Length",numbers);
+                }
+                map.put("Null",rs.getString(4));
+                map.put("Key",rs.getString(5));
+                map.put("Comment",rs.getString(9));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            close();
+        }
+        return list;
+    }
     public static void close() {
         try {
             conn.close();
@@ -201,7 +256,6 @@ public class DataSource {
     public static String getPackageResourceFilePath() {
         return PACKAGE_RESOURCE_FILE_PATH;
     }
-
     public static String toHump(String para){
         StringBuilder result=new StringBuilder();
         String a[]=para.split("_");
