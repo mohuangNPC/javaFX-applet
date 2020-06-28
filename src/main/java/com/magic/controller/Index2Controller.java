@@ -6,9 +6,14 @@ import com.magic.generated.util.Template;
 import com.magic.util.AlertBox;
 import com.magic.util.BashAction;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,10 +26,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * @author mohuangNPC
@@ -49,6 +52,10 @@ public class Index2Controller extends BashAction implements Initializable {
     public AnchorPane rightAnchorPane;
     @FXML
     public VBox vBox;
+    @FXML
+    public SplitPane allInfo;
+    @FXML
+    public MenuItem showInfo;
 
     public void setMain(Main main) {
         this.main = main;
@@ -67,6 +74,12 @@ public class Index2Controller extends BashAction implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        showInfo.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                vBox.getChildren().add(1,allInfo);
+            }
+        });
         ObservableList<Node> scrolChildren = centerAnchorPane.getChildren();
         scrolChildren.clear();
         Label placeholder = new Label();
@@ -109,6 +122,57 @@ public class Index2Controller extends BashAction implements Initializable {
                 new PropertyValueFactory<>("operational")
         );
         operationalCol.setPrefWidth(199);
+        /**
+         * The button is defined in the entity class, but the column information cannot be obtained
+         */
+        TableColumn colBtn = new TableColumn("Generate configuration");
+        colBtn.setCellValueFactory(
+                new PropertyValueFactory<>("entityButton")
+        );
+        /**
+         * Find the method on the Internet and then modify it,
+         * the "hashmap" information contained in the button is stored in the entity class
+         */
+        TableColumn<Map<String,String>, Map<String,String>> editColumn = new TableColumn<>("Custom configuration");
+        editColumn.setCellValueFactory(
+                new PropertyValueFactory<>("customButton")
+        );
+        editColumn.setCellFactory(col -> {
+            Button editButton = new Button("Edit");
+            TableCell<Map<String,String>, Map<String,String>> cell = new TableCell<Map<String,String>, Map<String,String>>() {
+                @Override
+                public void updateItem(Map<String,String> person, boolean empty) {
+                    super.updateItem(person, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(editButton);
+                    }
+                }
+            };
+            editButton.setOnAction(e -> System.err.println(cell.getItem().toString()));
+            return cell ;
+        });
+        /**
+         * The method of searching online is effective
+         */
+        TableColumn<Person, Person> networkColumn = column("Network configuration", ReadOnlyObjectWrapper<Person>::new);
+        networkColumn.setCellFactory(col -> {
+            Button editButton = new Button("Edit");
+            TableCell<Person, Person> cell = new TableCell<Person, Person>() {
+                @Override
+                public void updateItem(Person person, boolean empty) {
+                    super.updateItem(person, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(editButton);
+                    }
+                }
+            };
+            editButton.setOnAction(e -> System.err.println(cell.getItem().getTableName()));
+            return cell ;
+        });
         tableMysql.setRowFactory(tv -> {
             TableRow<Person> row = new TableRow<Person>();
             row.setOnMouseClicked(event -> {
@@ -122,22 +186,28 @@ public class Index2Controller extends BashAction implements Initializable {
                     rightAnchorPane.getChildren().addAll(tableInfo);
                 }
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    Person info = row.getItem();
-                    Thread thread = new Thread(() -> {
-                        Template.generatedAll(info.getTableName());
-                        Platform.runLater(()->{
-                            AlertBox.close();
-                        });
-                    });
-                    thread.start();
-                    new AlertBox().display("Code Generation","Generating");
+                    vBox.getChildren().removeAll(allInfo);
+//                    Person info = row.getItem();
+//                    Thread thread = new Thread(() -> {
+//                        Template.generatedAll(info.getTableName());
+//                        Platform.runLater(()->{
+//                            AlertBox.close();
+//                        });
+//                    });
+//                    thread.start();
+//                    new AlertBox().display("Code Generation","Generating");
                 }
             });
             return row ;
         });
         tableMysql.setItems(data);
-        tableMysql.getColumns().addAll(tableNameCol, operationalCol);
+        tableMysql.getColumns().addAll(tableNameCol, operationalCol,colBtn,editColumn,networkColumn);
         return tableMysql;
+    }
+    private <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property) {
+        TableColumn<S,T> col = new TableColumn<>(title);
+        col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
+        return col ;
     }
     public TableView getTableInformation(String tableName){
         //Clear the original table data
@@ -194,30 +264,81 @@ public class Index2Controller extends BashAction implements Initializable {
         centerAnchorPane.getChildren().clear();
         centerAnchorPane.getChildren().addAll(tableMysql);
     }
+    public static class EditButton extends Button {
+        public EditButton(String fileName) {
+            super(fileName);
+            setOnAction((event) -> {
+                System.err.println(event.toString());
+                System.err.println(event.getSource().toString());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Hey!");
+                alert.setHeaderText(null);
+                alert.setContentText("You're editing \"" + "entity" + "\"");
+                alert.showAndWait();
+            });
+        }
+    }
     public static class Person {
-
         private final SimpleStringProperty tableName;
         private final SimpleStringProperty operational;
+        private final SimpleObjectProperty<Map<String,String>> customButton;
+        private final SimpleObjectProperty<EditButton> entityButton;
 
         private Person(String fName, String lName) {
             this.tableName = new SimpleStringProperty(fName);
             this.operational = new SimpleStringProperty(lName);
+            this.entityButton = new SimpleObjectProperty(new EditButton("Configuration"));
+            Map<String,String> map = new HashMap<>();
+            map.put("name",fName);
+            this.customButton = new SimpleObjectProperty(map);
         }
 
         public String getTableName() {
             return tableName.get();
         }
 
-        public void setTableName(String fName) {
-            tableName.set(fName);
+        public SimpleStringProperty tableNameProperty() {
+            return tableName;
+        }
+
+        public void setTableName(String tableName) {
+            this.tableName.set(tableName);
         }
 
         public String getOperational() {
             return operational.get();
         }
 
-        public void setOperational(String lName) {
-            operational.set(lName);
+        public SimpleStringProperty operationalProperty() {
+            return operational;
+        }
+
+        public void setOperational(String operational) {
+            this.operational.set(operational);
+        }
+
+        public Map<String, String> getCustomButton() {
+            return customButton.get();
+        }
+
+        public SimpleObjectProperty<Map<String, String>> customButtonProperty() {
+            return customButton;
+        }
+
+        public void setCustomButton(Map<String, String> customButton) {
+            this.customButton.set(customButton);
+        }
+
+        public EditButton getEntityButton() {
+            return entityButton.get();
+        }
+
+        public SimpleObjectProperty<EditButton> entityButtonProperty() {
+            return entityButton;
+        }
+
+        public void setEntityButton(EditButton entityButton) {
+            this.entityButton.set(entityButton);
         }
     }
     public static class TableInfo {
