@@ -56,22 +56,14 @@ public class Index2Controller extends BashAction implements Initializable {
     public SplitPane allInfo;
     @FXML
     public MenuItem showInfo;
-
     public void setMain(Main main) {
         this.main = main;
     }
-
     /**
-     * Initialize the function tree
+     * Initialize the page
+     * @param location
+     * @param resources
      */
-    public void setTreeView() {
-        TreeItem<String> rootItem = new TreeItem<> ("Features", rootIcon);
-        rootItem.setExpanded(true);
-        TreeItem<String> item = new TreeItem<> ("Code generation");
-        rootItem.getChildren().add(item);
-        functionList.setRoot(rootItem);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showInfo.setOnAction(new EventHandler<ActionEvent>(){
@@ -88,7 +80,20 @@ public class Index2Controller extends BashAction implements Initializable {
         new Thread(() -> initTable()).start();
         setTreeView();
     }
-
+    /**
+     * Initialize the function tree
+     */
+    public void setTreeView() {
+        TreeItem<String> rootItem = new TreeItem<> ("Features", rootIcon);
+        rootItem.setExpanded(true);
+        TreeItem<String> item = new TreeItem<> ("Code generation");
+        rootItem.getChildren().add(item);
+        functionList.setRoot(rootItem);
+    }
+    /**
+     * Click event on the left tree
+     * @param mouseEvent
+     */
     public void mainTreeViewClick(MouseEvent mouseEvent) {
         TreeItem<String> selectedItem = functionList.getSelectionModel().getSelectedItem();
         logger(getClass()).info(selectedItem.getValue());
@@ -99,6 +104,10 @@ public class Index2Controller extends BashAction implements Initializable {
             scrolChildren.clear();
         }
     }
+    /**
+     * Initialization table
+     * @return
+     */
     public TableView initTable(){
         Label placeholder = new Label();
         placeholder.setText("NO TABLE");
@@ -209,6 +218,11 @@ public class Index2Controller extends BashAction implements Initializable {
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         return col ;
     }
+    /**
+     * Display table information
+     * @param tableName
+     * @return
+     */
     public TableView getTableInformation(String tableName){
         //Clear the original table data
         tableInfo.getColumns().clear();
@@ -260,10 +274,16 @@ public class Index2Controller extends BashAction implements Initializable {
         tableInfo.getColumns().addAll(nameCol, typeCol,lengthCol,nullCol,keyCol,commentCol);
         return tableInfo;
     }
+    /**
+     * Set whether the middle table view is displayed
+     */
     public void setDefaultAnchorPane() {
         centerAnchorPane.getChildren().clear();
         centerAnchorPane.getChildren().addAll(tableMysql);
     }
+    /**
+     * Custom button
+     */
     public static class EditButton extends Button {
         public EditButton(String fileName) {
             super(fileName);
@@ -278,6 +298,9 @@ public class Index2Controller extends BashAction implements Initializable {
             });
         }
     }
+    /**
+     * Each row of table information
+     */
     public static class Person {
         private final SimpleStringProperty tableName;
         private final SimpleStringProperty operational;
@@ -341,8 +364,10 @@ public class Index2Controller extends BashAction implements Initializable {
             this.entityButton.set(entityButton);
         }
     }
+    /**
+     * Database table information
+      */
     public static class TableInfo {
-
         private final SimpleStringProperty Name;
         private final SimpleStringProperty Type;
         private final SimpleStringProperty Length;
