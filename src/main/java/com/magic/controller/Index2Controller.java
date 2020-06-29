@@ -15,8 +15,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -24,7 +28,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
@@ -265,7 +273,26 @@ public class Index2Controller extends BashAction implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
                     logger(getClass()).info("once");
-
+                    FXMLLoader loader = new FXMLLoader();
+                    try {
+                        InputStream in = Main.class.getClassLoader().getResourceAsStream("FieldConfiguration.fxml");
+                        loader.setBuilderFactory(new JavaFXBuilderFactory());
+                        loader.setLocation(Main.class.getClassLoader().getResource("FieldConfiguration.fxml"));
+                        Parent layout = loader.load(in);
+                        Scene scene = new Scene(layout);
+                        // this is the popup stage
+                        Stage popupStage = new Stage();
+                        // Giving the popup controller access to the popup stage (to allow the controller to close the stage)
+//                        fpop.setStage(popupStage);
+                        if(this.main!=null) {
+                            popupStage.initOwner(main.getStage());
+                        }
+                        popupStage.initModality(Modality.WINDOW_MODAL);
+                        popupStage.setScene(scene);
+                        popupStage.showAndWait();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             return row ;
