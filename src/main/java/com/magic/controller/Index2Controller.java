@@ -279,15 +279,12 @@ public class Index2Controller extends BashAction implements Initializable {
                         loader.setBuilderFactory(new JavaFXBuilderFactory());
                         loader.setLocation(Main.class.getClassLoader().getResource("FieldConfiguration.fxml"));
                         loader.setControllerFactory((Class<?> param) -> {
-                            return new FieldConfigController("test_type");
+                            return new FieldConfigController("type_test");
                         });
                         Parent layout = loader.load();
                         FieldConfigController controller = loader.getController();
                         Scene scene = new Scene(layout);
-                        // this is the popup stage
                         Stage popupStage = new Stage();
-                        // Giving the popup controller access to the popup stage (to allow the controller to close the stage)
-//                        fpop.setStage(popupStage);
                         if(this.main!=null) {
                             popupStage.initOwner(main.getStage());
                         }
