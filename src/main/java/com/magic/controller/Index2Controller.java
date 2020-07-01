@@ -273,12 +273,16 @@ public class Index2Controller extends BashAction implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
                     logger(getClass()).info("once");
-                    FXMLLoader loader = new FXMLLoader();
                     try {
+                        FXMLLoader loader = new FXMLLoader();
                         InputStream in = Main.class.getClassLoader().getResourceAsStream("FieldConfiguration.fxml");
                         loader.setBuilderFactory(new JavaFXBuilderFactory());
                         loader.setLocation(Main.class.getClassLoader().getResource("FieldConfiguration.fxml"));
-                        Parent layout = loader.load(in);
+                        loader.setControllerFactory((Class<?> param) -> {
+                            return new FieldConfigController("test_type");
+                        });
+                        Parent layout = loader.load();
+                        FieldConfigController controller = loader.getController();
                         Scene scene = new Scene(layout);
                         // this is the popup stage
                         Stage popupStage = new Stage();

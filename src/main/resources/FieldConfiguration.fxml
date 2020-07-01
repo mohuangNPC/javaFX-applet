@@ -14,10 +14,10 @@
       <TextArea prefHeight="54.0" prefWidth="600.0" text="                                                                 &#10;                                                                Field configuration                                               " />
       <TableView prefHeight="311.0" prefWidth="395.0">
         <columns>
-          <TableColumn prefWidth="146.0" text="Field" />
-          <TableColumn minWidth="0.0" prefWidth="137.0" text="type" />
-            <TableColumn prefWidth="165.0" text="Comment" />
-            <TableColumn prefWidth="151.0" text="QueryType" />
+          <TableColumn fx:id="field" prefWidth="146.0" text="Field" />
+          <TableColumn fx:id="type" minWidth="0.0" prefWidth="137.0" text="type" />
+            <TableColumn fx:id="comment" prefWidth="165.0" text="Comment" />
+            <TableColumn fx:id="queryType" prefWidth="151.0" text="QueryType" />
         </columns>
          <VBox.margin>
             <Insets />
