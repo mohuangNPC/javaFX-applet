@@ -146,6 +146,24 @@ public class Index2Controller extends BashAction implements Initializable {
         colBtn.setCellValueFactory(
                 new PropertyValueFactory<>("entityButton")
         );
+        colBtn.setCellFactory(col -> {
+            TableCell<EditButton, EditButton> cell = new TableCell<EditButton, EditButton>() {
+                @Override
+                public void updateItem(EditButton person, boolean empty) {
+                    EditButton button = new EditButton("Configuration");
+                    button.setOnAction(event -> {
+                        jumpPage();
+                    });
+                    super.updateItem(person, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(button);
+                    }
+                }
+            };
+            return cell;
+        });
         /**
          * Find the method on the Internet and then modify it,
          * the "hashmap" information contained in the button is stored in the entity class
@@ -326,6 +344,29 @@ public class Index2Controller extends BashAction implements Initializable {
             });
         }
     }
+    public void jumpPage(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            InputStream in = Main.class.getClassLoader().getResourceAsStream("FieldConfiguration.fxml");
+            loader.setBuilderFactory(new JavaFXBuilderFactory());
+            loader.setLocation(Main.class.getClassLoader().getResource("FieldConfiguration.fxml"));
+            loader.setControllerFactory((Class<?> param) -> {
+                return new FieldConfigController("type_test");
+            });
+            Parent layout = loader.load();
+            FieldConfigController controller = loader.getController();
+            Scene scene = new Scene(layout);
+            Stage popupStage = new Stage();
+            if(this.main!=null) {
+                popupStage.initOwner(main.getStage());
+            }
+            popupStage.initModality(Modality.WINDOW_MODAL);
+            popupStage.setScene(scene);
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Each row of table information
      */
@@ -338,7 +379,8 @@ public class Index2Controller extends BashAction implements Initializable {
         private Person(String fName, String lName) {
             this.tableName = new SimpleStringProperty(fName);
             this.operational = new SimpleStringProperty(lName);
-            this.entityButton = new SimpleObjectProperty(new EditButton("Configuration"));
+            EditButton configuration = new EditButton("Configuration");
+            this.entityButton = new SimpleObjectProperty(configuration);
             Map<String,String> map = new HashMap<>();
             map.put("name",fName);
             this.customButton = new SimpleObjectProperty(map);
