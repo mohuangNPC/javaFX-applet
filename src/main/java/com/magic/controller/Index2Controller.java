@@ -152,7 +152,8 @@ public class Index2Controller extends BashAction implements Initializable {
                 public void updateItem(EditButton person, boolean empty) {
                     EditButton button = new EditButton("Configuration");
                     button.setOnAction(event -> {
-                        jumpPage();
+                        Person p = (Person) getTableRow().getItem();
+                        jumpPage(p.getTableName());
                     });
                     super.updateItem(person, empty);
                     if (empty) {
@@ -331,6 +332,7 @@ public class Index2Controller extends BashAction implements Initializable {
      * Custom button
      */
     public static class EditButton extends Button {
+        private String tableName;
         public EditButton(String fileName) {
             super(fileName);
             setOnAction((event) -> {
@@ -343,15 +345,23 @@ public class Index2Controller extends BashAction implements Initializable {
                 alert.showAndWait();
             });
         }
+
+        public String getTableName() {
+            return tableName;
+        }
+
+        public void setTableName(String tableName) {
+            this.tableName = tableName;
+        }
     }
-    public void jumpPage(){
+    public void jumpPage(String tableNameDE){
         try {
             FXMLLoader loader = new FXMLLoader();
             InputStream in = Main.class.getClassLoader().getResourceAsStream("FieldConfiguration.fxml");
             loader.setBuilderFactory(new JavaFXBuilderFactory());
             loader.setLocation(Main.class.getClassLoader().getResource("FieldConfiguration.fxml"));
             loader.setControllerFactory((Class<?> param) -> {
-                return new FieldConfigController("type_test");
+                return new FieldConfigController(tableNameDE);
             });
             Parent layout = loader.load();
             FieldConfigController controller = loader.getController();
@@ -380,6 +390,7 @@ public class Index2Controller extends BashAction implements Initializable {
             this.tableName = new SimpleStringProperty(fName);
             this.operational = new SimpleStringProperty(lName);
             EditButton configuration = new EditButton("Configuration");
+            configuration.setTableName(fName);
             this.entityButton = new SimpleObjectProperty(configuration);
             Map<String,String> map = new HashMap<>();
             map.put("name",fName);
