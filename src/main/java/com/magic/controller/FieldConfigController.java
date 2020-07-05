@@ -1,18 +1,18 @@
 package com.magic.controller;
 
 import com.magic.generated.datasource.DataSource;
+import com.magic.generated.util.Template;
 import com.magic.util.BashAction;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.control.cell.MapValueFactory;
 
@@ -43,6 +43,8 @@ public class FieldConfigController extends BashAction implements Initializable {
     public TableColumn comment;
     @FXML
     public TableView allTableView;
+    @FXML
+    public Button confirmButton;
     private String tableName;
 
     public FieldConfigController() {
@@ -54,6 +56,13 @@ public class FieldConfigController extends BashAction implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        confirmButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.err.println("test button click");
+                Template.generatedAll(tableName);
+            }
+        });
         List<Map<String, String>> tableInfomation = DataSource.getTableInfo(tableName);
         ObservableList<Map<String, String>> data = FXCollections.observableArrayList(
                 tableInfomation
