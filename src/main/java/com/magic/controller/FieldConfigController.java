@@ -62,7 +62,7 @@ public class FieldConfigController extends BashAction implements Initializable {
                     ComboBox queryType = (ComboBox) map.get("queryType");
                     System.err.println(queryType.getValue());
                 });
-                //Template.generatedAll(tableName);
+                Template.generatedAll(tableName);
             }
         });
         List<Map<String, String>> tableInfomation = DataSource.getTableInfo(tableName);
