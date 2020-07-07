@@ -59,10 +59,11 @@ public class FieldConfigController extends BashAction implements Initializable {
             public void handle(ActionEvent event) {
                 allTableView.getItems().forEach(v->{
                     Map<String,Object> map = (Map<String, Object>) v;
+                    System.err.println(v.toString());
                     ComboBox queryType = (ComboBox) map.get("queryType");
                     System.err.println(queryType.getValue());
                 });
-                Template.generatedAll(tableName);
+//                Template.generatedAll(tableName);
             }
         });
         List<Map<String, String>> tableInfomation = DataSource.getTableInfo(tableName);
@@ -84,7 +85,7 @@ public class FieldConfigController extends BashAction implements Initializable {
         field.setCellValueFactory(new MapValueFactory("Name"));
         type.setCellValueFactory(new MapValueFactory("Type"));
         comment.setCellValueFactory(new MapValueFactory("Comment"));
-        comment.setCellValueFactory(new MapValueFactory("queryType"));
+        queryType.setCellValueFactory(new MapValueFactory("queryType"));
         allTableView.setItems(data);
         allTableView.getColumns().set(0, field);
         allTableView.getColumns().set(1, type);
