@@ -2,15 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 对应 dao 中的 接口 -->
 <mapper namespace="com.magic.generated.dao.GenerateDao">
-
-    <!--   根据Id查询一个模型对象   -->
-    <!-- 对应 dao接口中的方法
-    	id				->	方法名
-    	parameterType	->	方法的形参类型
-    	resultType		->	方法的返回值类型
-      -->
     <select id="showTable" parameterType="string" resultType="hashmap">
         show columns from ${tableName}
     </select>

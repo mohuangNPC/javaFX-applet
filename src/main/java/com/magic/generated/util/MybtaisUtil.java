@@ -1,6 +1,7 @@
 package com.magic.generated.util;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -22,6 +23,10 @@ public class MybtaisUtil {
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         }
         return sqlSessionFactory;
+    }
+
+    public SqlSession getSession(){
+        return sqlSessionFactory.openSession();
     }
 
 }
