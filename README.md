@@ -6,3 +6,5 @@ JavaFX applets written by myself.Can be used directly, and more functions will b
     - Is a maven project
 3. maven install
 4. Run the jar package
+## new function
+Chat function will be added soon
