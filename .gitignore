@@ -3,3 +3,9 @@
 /src/test/
 /FXTool.iml
 /logs/
+/IMServer/.mvn/
+/IMServer/.idea/
+/IMServer/HELP.md
+/IMServer/IMServer.iml
+/IMServer/mvnw
+/IMServer/mvnw.cmd
