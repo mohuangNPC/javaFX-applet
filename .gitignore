@@ -9,3 +9,7 @@
 /IMServer/IMServer.iml
 /IMServer/mvnw
 /IMServer/mvnw.cmd
+/NettyRpc/RpcClient/.idea/
+/NettyRpc/RpcServer/.idea/
+/NettyRpc/RpcClient/target/
+/NettyRpc/RpcServer/target/

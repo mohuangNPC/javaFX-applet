@@ -8,3 +8,5 @@ JavaFX applets written by myself.Can be used directly, and more functions will b
 4. Run the jar package
 ## new function
 Chat function will be added soon
+## new function
+rpc server will be added soon
