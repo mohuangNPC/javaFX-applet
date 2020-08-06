@@ -84,6 +84,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        String asLongText = ctx.channel().id().asLongText();
+        System.err.println("客户端:"+asLongText+"连接");
         clents.add(ctx.channel());
     }
 
@@ -91,6 +93,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         System.err.println("客户端移除断开，channel对应的长Id:" + ctx.channel().id().asLongText());
         System.err.println("客户端移除断开，channel对应的短Id:" + ctx.channel().id().asShortText());
+        String asLongText = ctx.channel().id().asLongText();
+        System.err.println("客户端:"+asLongText+"断开连接");
         clents.remove(ctx.channel());
     }
 
@@ -100,5 +104,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         //发生了异常后要关闭连接，同时从channelgroup中移除
         ctx.channel().close();
         clents.remove(ctx.channel());
+    }
+
+    public static ChannelGroup getClents() {
+        return clents;
     }
 }
